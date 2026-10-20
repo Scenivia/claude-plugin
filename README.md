@@ -8,25 +8,24 @@
   </picture>
 </a>
 
-### Your product launch film, made from Claude Code
+### Your product launch film, made from your AI coding agent
 
 Brief it, pick a template, edit every shot and export the MP4,
-without leaving your terminal.
+without leaving your editor.
 
-[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-1A56FF?style=for-the-badge)](#install)
-[![MCP](https://img.shields.io/badge/MCP-HTTP%20%C2%B7%20OAuth-0B0F19?style=for-the-badge)](#connect-your-account)
-[![Free to use](https://img.shields.io/badge/license-free%20to%20use-2E7D32?style=for-the-badge)](LICENSE)
+<p>
+  <img alt="MCP server" src="https://img.shields.io/badge/MCP-HTTP_%C2%B7_OAuth-0B0F19?style=flat&logo=modelcontextprotocol&logoColor=white">
+  <img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat&logo=claude&logoColor=white">
+  <a href="LICENSE"><img alt="License: free to use" src="https://img.shields.io/badge/license-free_to_use-1A56FF?style=flat"></a>
+</p>
 
-<a href="https://cursor.com/en/install-mcp?name=scenivia&config=eyJ1cmwiOiAiaHR0cHM6Ly9hcGkuc2Nlbml2aWEuY29tL21jcCJ9"><img alt="Add to Cursor" src="https://cursor.com/deeplink/mcp-install-dark.svg" height="32"></a>
-<a href="https://insiders.vscode.dev/redirect/mcp/install?name=scenivia&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fapi.scenivia.com%2Fmcp%22%7D"><img alt="Install in VS Code" src="https://img.shields.io/badge/VS%20Code-Install%20MCP-0098FF?style=for-the-badge&logo=visualstudiocode&logoColor=white" height="32"></a>
-<a href="#claude-code"><img alt="Add to Claude Code" src="https://img.shields.io/badge/Claude%20Code-Add-D97757?style=for-the-badge" height="32"></a>
-<a href="#chatgpt"><img alt="Connect to ChatGPT" src="https://img.shields.io/badge/ChatGPT-Connect-10A37F?style=for-the-badge" height="32"></a>
-
-<br>
-
-<img alt="A Scenivia film: the Via mascot next to the line Your video studio, right in your chat" src="assets/banner.jpg" width="100%">
-
-<br>
+<p>
+  <a href="#install"><img alt="Add to Claude Code" src="https://img.shields.io/badge/Add_to-Claude_Code-D97757?style=for-the-badge&logo=claude&logoColor=white&labelColor=1F1F1F"></a>
+  <a href="https://cursor.com/en/install-mcp?name=scenivia&config=eyJ1cmwiOiAiaHR0cHM6Ly9hcGkuc2Nlbml2aWEuY29tL21jcCJ9"><img alt="Add to Cursor" src="https://img.shields.io/badge/Add_to-Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white&labelColor=1F1F1F"></a>
+  <a href="https://insiders.vscode.dev/redirect/mcp/install?name=scenivia&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fapi.scenivia.com%2Fmcp%22%7D"><img alt="Install in VS Code" src="https://img.shields.io/badge/Install_in-VS_Code-007ACC?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyBmaWxsPSJ3aGl0ZSIgcm9sZT0iaW1nIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BPHRpdGxlPlZpc3VhbCBTdHVkaW8gQ29kZTwvdGl0bGU%2BPHBhdGggZD0iTTIzLjE1IDIuNTg3TDE4LjIxLjIxYTEuNDk0IDEuNDk0IDAgMCAwLTEuNzA1LjI5bC05LjQ2IDguNjMtNC4xMi0zLjEyOGEuOTk5Ljk5OSAwIDAgMC0xLjI3Ni4wNTdMLjMyNyA3LjI2MUExIDEgMCAwIDAgLjMyNiA4Ljc0TDMuODk5IDEyIC4zMjYgMTUuMjZhMSAxIDAgMCAwIC4wMDEgMS40NzlMMS42NSAxNy45NGEuOTk5Ljk5OSAwIDAgMCAxLjI3Ni4wNTdsNC4xMi0zLjEyOCA5LjQ2IDguNjNhMS40OTIgMS40OTIgMCAwIDAgMS43MDQuMjlsNC45NDItMi4zNzdBMS41IDEuNSAwIDAgMCAyNCAyMC4wNlYzLjkzOWExLjUgMS41IDAgMCAwLS44NS0xLjM1MnptLTUuMTQ2IDE0Ljg2MUwxMC44MjYgMTJsNy4xNzgtNS40NDh2MTAuODk2eiIvPjwvc3ZnPg%3D%3D&labelColor=1F1F1F"></a>
+  <a href="#chatgpt"><img alt="Connect to ChatGPT" src="https://img.shields.io/badge/Connect_to-ChatGPT-10A37F?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyBmaWxsPSJ3aGl0ZSIgcm9sZT0iaW1nIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BPHRpdGxlPk9wZW5BSTwvdGl0bGU%2BPHBhdGggZD0iTTIyLjI4MTkgOS44MjExYTUuOTg0NyA1Ljk4NDcgMCAwIDAtLjUxNTctNC45MTA4IDYuMDQ2MiA2LjA0NjIgMCAwIDAtNi41MDk4LTIuOUE2LjA2NTEgNi4wNjUxIDAgMCAwIDQuOTgwNyA0LjE4MThhNS45ODQ3IDUuOTg0NyAwIDAgMC0zLjk5NzcgMi45IDYuMDQ2MiA2LjA0NjIgMCAwIDAgLjc0MjcgNy4wOTY2IDUuOTggNS45OCAwIDAgMCAuNTExIDQuOTEwNyA2LjA1MSA2LjA1MSAwIDAgMCA2LjUxNDYgMi45MDAxQTUuOTg0NyA1Ljk4NDcgMCAwIDAgMTMuMjU5OSAyNGE2LjA1NTcgNi4wNTU3IDAgMCAwIDUuNzcxOC00LjIwNTggNS45ODk0IDUuOTg5NCAwIDAgMCAzLjk5NzctMi45MDAxIDYuMDU1NyA2LjA1NTcgMCAwIDAtLjc0NzUtNy4wNzI5em0tOS4wMjIgMTIuNjA4MWE0LjQ3NTUgNC40NzU1IDAgMCAxLTIuODc2NC0xLjA0MDhsLjE0MTktLjA4MDQgNC43NzgzLTIuNzU4MmEuNzk0OC43OTQ4IDAgMCAwIC4zOTI3LS42ODEzdi02LjczNjlsMi4wMiAxLjE2ODZhLjA3MS4wNzEgMCAwIDEgLjAzOC4wNTJ2NS41ODI2YTQuNTA0IDQuNTA0IDAgMCAxLTQuNDk0NSA0LjQ5NDR6bS05LjY2MDctNC4xMjU0YTQuNDcwOCA0LjQ3MDggMCAwIDEtLjUzNDYtMy4wMTM3bC4xNDIuMDg1MiA0Ljc4MyAyLjc1ODJhLjc3MTIuNzcxMiAwIDAgMCAuNzgwNiAwbDUuODQyOC0zLjM2ODV2Mi4zMzI0YS4wODA0LjA4MDQgMCAwIDEtLjAzMzIuMDYxNUw5Ljc0IDE5Ljk1MDJhNC40OTkyIDQuNDk5MiAwIDAgMS02LjE0MDgtMS42NDY0ek0yLjM0MDggNy44OTU2YTQuNDg1IDQuNDg1IDAgMCAxIDIuMzY1NS0xLjk3MjhWMTEuNmEuNzY2NC43NjY0IDAgMCAwIC4zODc5LjY3NjVsNS44MTQ0IDMuMzU0My0yLjAyMDEgMS4xNjg1YS4wNzU3LjA3NTcgMCAwIDEtLjA3MSAwbC00LjgzMDMtMi43ODY1QTQuNTA0IDQuNTA0IDAgMCAxIDIuMzQwOCA3Ljg3MnptMTYuNTk2MyAzLjg1NThMMTMuMTAzOCA4LjM2NCAxNS4xMTkyIDcuMmEuMDc1Ny4wNzU3IDAgMCAxIC4wNzEgMGw0LjgzMDMgMi43OTEzYTQuNDk0NCA0LjQ5NDQgMCAwIDEtLjY3NjUgOC4xMDQydi01LjY3NzJhLjc5Ljc5IDAgMCAwLS40MDctLjY2N3ptMi4wMTA3LTMuMDIzMWwtLjE0Mi0uMDg1Mi00Ljc3MzUtMi43ODE4YS43NzU5Ljc3NTkgMCAwIDAtLjc4NTQgMEw5LjQwOSA5LjIyOTdWNi44OTc0YS4wNjYyLjA2NjIgMCAwIDEgLjAyODQtLjA2MTVsNC44MzAzLTIuNzg2NmE0LjQ5OTIgNC40OTkyIDAgMCAxIDYuNjgwMiA0LjY2ek04LjMwNjUgMTIuODYzbC0yLjAyLTEuMTYzOGEuMDgwNC4wODA0IDAgMCAxLS4wMzgtLjA1NjdWNi4wNzQyYTQuNDk5MiA0LjQ5OTIgMCAwIDEgNy4zNzU3LTMuNDUzN2wtLjE0Mi4wODA1TDguNzA0IDUuNDU5YS43OTQ4Ljc5NDggMCAwIDAtLjM5MjcuNjgxM3ptMS4wOTc2LTIuMzY1NGwyLjYwMi0xLjQ5OTggMi42MDY5IDEuNDk5OHYyLjk5OTRsLTIuNTk3NCAxLjQ5OTctMi42MDY3LTEuNDk5N1oiLz48L3N2Zz4%3D&labelColor=1F1F1F"></a>
+  <a href="#windsurf"><img alt="Add to Windsurf" src="https://img.shields.io/badge/Add_to-Windsurf-0B100F?style=for-the-badge&logo=windsurf&logoColor=white&labelColor=1F1F1F"></a>
+</p>
 
 [Install](#install) · [Other apps](#use-it-in-other-apps) · [Connect](#connect-your-account) · [What to ask](#what-to-ask) · [Tools](#tools) · [Limits](#limits-and-credits) · [Support](#support)
 
@@ -43,24 +42,24 @@ of. This plugin gives Claude Code the same controls you have in the Studio.
 <table>
   <tr>
     <td width="50%" valign="top">
-      <h4>📝 Brief the film</h4>
+      <h4>Brief the film</h4>
       Create a project, describe the product, its audience and call to action,
       and set your brand colours and typeface.
     </td>
     <td width="50%" valign="top">
-      <h4>🎞️ Pick the right template</h4>
+      <h4>Pick the right template</h4>
       Compare the Library templates, what each one tells and for which product,
       with a preview, before choosing.
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <h4>✏️ Edit every shot</h4>
+      <h4>Edit every shot</h4>
       Retitle a shot, swap a picture, repaint in your colours, change a
       transition. Every batch is checked before it is applied.
     </td>
     <td width="50%" valign="top">
-      <h4>📦 Export the MP4</h4>
+      <h4>Export the MP4</h4>
       Check the export for free, render it in 16:9, 1:1 or 9:16, and get a
       download link.
     </td>
@@ -153,6 +152,8 @@ Turn on **developer mode** in **Settings › Apps & Connectors › Advanced**, t
 MCP connectors depend on your ChatGPT plan.
 
 </details>
+
+<a id="windsurf"></a>
 
 <details>
 <summary><b>Windsurf</b> and other MCP clients</summary>
