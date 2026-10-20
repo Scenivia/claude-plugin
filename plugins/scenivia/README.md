@@ -1,8 +1,9 @@
 # Scenivia plugin for Claude Code
 
-Connects Claude Code to [Scenivia](https://scenivia.com): the agent can brief a
-film, compare the Library templates, propose and apply typed edits, check the
-export and render the MP4. It carries one skill (`skills/scenivia/`) and the
+Connects Claude Code to [Scenivia](https://scenivia.com): the agent briefs a
+film, picks a Library template and writes every line of it itself (no AI
+generation spent on Scenivia's side), refines the brand, music and pictures,
+checks the export and renders the MP4. It carries one skill (`skills/scenivia/`) and the
 connection to the Scenivia MCP server (`.mcp.json`, HTTP with OAuth). It holds
 no secret.
 

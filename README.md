@@ -190,7 +190,7 @@ from **Account › Security**: its token stops working at once.
 ## What to ask
 
 ```text
-Make a 30 second launch film for https://example.com in Scenivia.
+Make a 30 second launch film for https://example.com in Scenivia, from a template.
 
 Which Scenivia templates would suit a developer tool? Show me the previews.
 
@@ -205,7 +205,7 @@ The agent always asks before it starts an export, since an export spends credits
 
 ## Tools
 
-28 tools, grouped by what they work on.
+32 tools, grouped by what they work on.
 
 <details>
 <summary><b>Projects and brief</b> · 7 tools</summary>
@@ -218,17 +218,18 @@ The agent always asks before it starts an export, since an export spends credits
 | `set_brief` | Sets the product, audience, goal, call to action and length | edit |
 | `get_brand` | Reads the brand colours, typeface and logo | read |
 | `set_brand_style` | Sets the brand colours and typeface | edit |
-| `start_storyboard_job` · `get_storyboard_job` | Writes a film from a prompt, the brief and your screenshots, and reads its progress | edit · read |
+| `start_storyboard_job` · `get_storyboard_job` | The fallback when no template fits: writes a free film from a prompt with Scenivia's AI, and reads its progress | edit · read |
 
 </details>
 
 <details>
-<summary><b>Templates, components and assets</b> · 9 tools</summary>
+<summary><b>Templates, components and assets</b> · 10 tools</summary>
 
 | Tool | What it does | Scope |
 |---|---|---|
 | `list_templates` | Lists the Library templates, what each tells and for which product | read |
-| `inspect_template` | Details one template: its shots, lines, pictures and limits | read |
+| `inspect_template` | Details one template: every place, its width and limits, the template's example line | read |
+| `list_library` | Lists the music by mood and the sound effects by family | read |
 | `find_components` | Searches the components a new shot can be made from | read |
 | `preview_component` | Shows the preview image of one component | read |
 | `list_transitions` | Lists the transitions between shots and their lengths | read |
@@ -240,11 +241,14 @@ The agent always asks before it starts an export, since an export spends credits
 </details>
 
 <details>
-<summary><b>Edits</b> · 4 tools</summary>
+<summary><b>Edits</b> · 7 tools</summary>
 
 | Tool | What it does | Scope |
 |---|---|---|
+| `use_template` | Makes the film from a template with every line written by the agent, no AI generation spent | edit |
 | `propose_edits` | Checks a batch of edits and returns a turn to apply, saves nothing | edit |
+| `edit_film` | Changes the brand name, logo, font, music, effects, narrator and format | edit |
+| `compose_screen` | Experimental: draws one bounded product screen from blocks, when no screenshot exists | edit |
 | `propose_structure` | Checks adding a shot at the end or removing one, saves nothing | edit |
 | `apply_turn` | Applies a proposed turn, once | edit |
 | `get_turn` | Reads whether a turn was applied, and at which revision | read |

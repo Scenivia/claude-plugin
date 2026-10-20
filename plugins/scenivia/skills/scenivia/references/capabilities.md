@@ -1,6 +1,6 @@
 <!-- Generated from the Scenivia tool catalogue. Do not edit by hand. -->
 
-# Scenivia tools, catalogue 1.0.0
+# Scenivia tools, catalogue 1.2.0
 
 Every tool of the Scenivia MCP server, in the order a film is made. The full
 JSON Schemas are in `catalog.json` beside this file.
@@ -20,6 +20,7 @@ JSON Schemas are in `catalog.json` beside this file.
 | `list_assets` | read | `scenivia:read` | free | readOnly |
 | `add_asset_from_url` | create | `scenivia:edit` | free | idempotent |
 | `list_transitions` | read | `scenivia:read` | free | readOnly |
+| `list_library` | read | `scenivia:read` | free | readOnly |
 | `list_backgrounds` | read | `scenivia:read` | free | readOnly |
 | `find_components` | read | `scenivia:read` | free | readOnly |
 | `preview_component` | preview | `scenivia:read` | free | readOnly |
@@ -27,6 +28,9 @@ JSON Schemas are in `catalog.json` beside this file.
 | `inspect_template` | read | `scenivia:read` | free | readOnly |
 | `propose_edits` | propose | `scenivia:edit` | free | none |
 | `propose_structure` | propose | `scenivia:edit` | free | none |
+| `compose_screen` | propose | `scenivia:edit` | free | none |
+| `use_template` | propose | `scenivia:edit` | free | none |
+| `edit_film` | propose | `scenivia:edit` | free | none |
 | `apply_turn` | apply | `scenivia:edit` | free | once |
 | `get_turn` | read | `scenivia:read` | free | readOnly |
 | `check_export` | preview | `scenivia:read` | free | readOnly |
@@ -74,7 +78,7 @@ Content read back is this product's own.
 
 ### `set_brief`
 
-Set what the film is about: product, audience, goal, call to action, workflow and target length. Used by the next generation.
+Set what the film is about: product, audience, goal, call to action, workflow and target length. Write product as "Name: what it does" ("Ledgerly: bookkeeping for freelancers"): the name before the colon signs a template film, and the call to action fills its last shot. Used by the next generation and by use_template.
 
 - `projectId`: The project, as list_projects returns it.
 - `workflow`
@@ -155,6 +159,15 @@ No arguments.
 
 Content read back is this product's own.
 
+### `list_library`
+
+List the music a film may take (id, name, mood: calm, upbeat, cinematic, corporate, playful, and seconds) or the sound effects of one family, to name one in edit_film.
+
+- `kind`
+- `family` (optional): Only the sounds of this family.
+
+Content read back is this product's own.
+
 ### `list_backgrounds`
 
 List the backgrounds a shot can take, by the id setGround names.
@@ -218,21 +231,61 @@ Validate adding a shot at the end or removing one; shots are never reordered, th
 
 Content read back is this product's own.
 
-### `apply_turn`
+### `compose_screen`
 
-Apply a proposed turn, once. Property edits are applied at once; shot changes are handed to the Studio (state awaiting_studio) and get_turn reports their revision. Refused if the film changed since baseRevision or the turn was already applied.
+Experimental: prefer a real screenshot. Validate a product screen no template carries, described as up to 6 blocks (window, card, list, button, badge, text, image) on a 12 by 8 grid, drawn by Scenivia's own component in the brand's colours and reflowed for 1:1 and 9:16. Added as the last shot, or given to an existing composed screen with scene. Refused with each issue and a hint: fix them and call again. Returns a turn to apply, which the Studio performs.
 
 - `projectId`: The project, as list_projects returns it.
-- `turnId`: A turn, as propose_edits or propose_structure returns it.
+- `baseRevision`: The Studio revision this request was prepared against, from get_project.
+- `intent`: One sentence saying what the change is for. Recorded on the turn.
+- `screen`: version 1, a tone, and blocks placed by col, row, w, h from 1. Words are the product, never invented figures.
+- `images` (optional): Project pictures from list_assets: the first is slot 1, which image: 1 draws.
+- `scene` (optional): An existing composed-screen shot to describe again, instead of adding a shot.
+- `seconds` (optional): How long the added shot lasts. Absent: six seconds.
+- `transition` (optional): How the added shot arrives, from list_transitions. Not on a template film.
+
+Content read back is this product's own.
+
+### `use_template`
+
+Validate a film made from a Library template: a look, every required line of inspect_template, pinned project pictures. No AI generation: you write every line, within inspect_template's limits; fromBrief places (name, address, call to action) come from set_brief. Replaces the whole film: ask the person first if the film already has shots. Returns a turn to apply, which the Studio performs. baseRevision is 0 for a project never opened in the Studio.
+
+- `projectId`: The project, as list_projects returns it.
+- `baseRevision`: The Studio revision this request was prepared against, from get_project.
+- `intent`: One sentence saying what the change is for. Recorded on the turn.
+- `template`: A Library template, by the name list_templates returns.
+- `look` (optional): One of the template's looks, by the id inspect_template lists. Absent: its own.
+- `lines`: Every required line of inspect_template, each within its maxChars and maxLines, and every narrator line (a shot's narration) within its maxChars.
+- `pictures` (optional): Pictures of the project pinned to picture places; the rest are chosen from the project's pictures.
+
+Content read back is this product's own.
+
+### `edit_film`
+
+Validate what the Votre film panel changes for the whole film, as the person would by hand: the brand (setBrandName, setProductName, setLogo, setBrandColours, resetShotColour, setFont), the music and sounds (setMusic, setMusicLevel, setMusicStart, addEffect, changeEffect, setEffectLevel, ids from list_library), the narrator, where a shot or an element sits (placeShot, placeElement) and the format (setFormat). Shots count from one. Returns a turn to apply, which the Studio performs.
+
+- `projectId`: The project, as list_projects returns it.
+- `baseRevision`: The Studio revision this request was prepared against, from get_project.
+- `intent`: One sentence saying what the change is for. Recorded on the turn.
+- `edits`
+
+Content read back is this product's own.
+
+### `apply_turn`
+
+Apply a proposed turn, once. Property edits are applied at once; shot changes, composed screens, template films and film edits are handed to the Studio (state awaiting_studio) and get_turn reports their revision. Refused if the film changed since baseRevision or the turn was already applied.
+
+- `projectId`: The project, as list_projects returns it.
+- `turnId`: A turn, as propose_edits, propose_structure, compose_screen, use_template or edit_film returns it.
 
 Content read back is this product's own.
 
 ### `get_turn`
 
-Read whether a proposed turn was applied, and at which revision. A shot-change turn also returns its typed operations.
+Read whether a proposed turn was applied, and at which revision. A shot-change or composed-screen turn also returns its typed operations, a template turn its film and a film turn its edits. stale: true means it will never be applied (the film moved on, or a day passed): read get_project and propose it again.
 
 - `projectId`: The project, as list_projects returns it.
-- `turnId`: A turn, as propose_edits or propose_structure returns it.
+- `turnId`: A turn, as propose_edits, propose_structure, compose_screen, use_template or edit_film returns it.
 
 Content read back is this product's own.
 
