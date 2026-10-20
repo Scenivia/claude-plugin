@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "scenivia": {
+      "type": "http",
+      "url": "https://api.scenivia.com/mcp",
+      "oauth": { "scopes": "scenivia:read scenivia:edit" }
+    }
+  }
+}

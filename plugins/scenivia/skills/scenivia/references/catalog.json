@@ -1,0 +1,3699 @@
+{
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "name": "list_projects",
+      "title": "List projects",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "account",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "List projects",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "workspace": {
+            "description": "Only personal projects, or only one workspace. Absent lists every project.",
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "personal"
+              },
+              {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "isOwner": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "updatedAt",
+                "isOwner"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "omitted": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "projects",
+          "omitted"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_project",
+      "title": "Read a project",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "Read a project",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "isOwner": {
+                "type": "boolean"
+              },
+              "canEdit": {
+                "type": "boolean"
+              },
+              "brief": {
+                "type": "object",
+                "properties": {
+                  "workflow": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "product_launch",
+                          "feature_announcement"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "product": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "audience": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "goal": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "cta": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "totalDurationSeconds": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "workflow",
+                  "product",
+                  "audience",
+                  "goal",
+                  "cta",
+                  "totalDurationSeconds"
+                ],
+                "additionalProperties": false
+              },
+              "studio": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "revision": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "shots": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "seconds": {
+                        "type": "number"
+                      },
+                      "aspectRatio": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "template": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "transitions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "shot": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "transition": {
+                              "type": "string",
+                              "enum": [
+                                "fade",
+                                "slide-from-left",
+                                "slide-from-right",
+                                "wipe-from-left",
+                                "wipe-from-right",
+                                "clock-wipe",
+                                "page-turn",
+                                "push-through",
+                                "whip-pan-left",
+                                "whip-pan-right",
+                                "focus-pull",
+                                "zoom-blur",
+                                "brand-shape-wipe",
+                                "light-ribbon",
+                                "whip-flash",
+                                "color-panel-wipe-from-left",
+                                "color-panel-wipe-from-right",
+                                "iris-wipe",
+                                "glow-wipe",
+                                "whip-pan-up",
+                                "whip-pan-down",
+                                "color-panel-wipe-from-top",
+                                "color-panel-wipe-from-bottom"
+                              ]
+                            },
+                            "seconds": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "shot",
+                            "transition",
+                            "seconds"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "description": "The passage into each shot that has one, as the export reads it."
+                      }
+                    },
+                    "required": [
+                      "revision",
+                      "shots",
+                      "seconds",
+                      "aspectRatio",
+                      "template",
+                      "transitions"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Null until the project has been opened in the Studio once."
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "isOwner",
+              "canEdit",
+              "brief",
+              "studio"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_brand",
+      "title": "Read the brand",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Read the brand",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "brand": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "colors": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                      }
+                    ]
+                  },
+                  "fontId": {
+                    "type": "string"
+                  },
+                  "hasLogo": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "colors",
+                  "fontId",
+                  "hasLogo"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "typefaces": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "inter",
+                "geist",
+                "source-serif-4",
+                "jetbrains-mono"
+              ]
+            }
+          }
+        },
+        "required": [
+          "brand",
+          "typefaces"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "set_brand_style",
+      "title": "Set brand colours and typeface",
+      "kind": "configure",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "idempotent",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Set brand colours and typeface",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "ground": {
+            "description": "The background colour.",
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "accent": {
+            "description": "The highlight colour.",
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "ink": {
+            "description": "The text colour.",
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "fontId": {
+            "type": "string",
+            "enum": [
+              "inter",
+              "geist",
+              "source-serif-4",
+              "jetbrains-mono"
+            ]
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "object",
+            "properties": {
+              "colors": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "string",
+                    "pattern": "^#[0-9a-fA-F]{6}$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^#[0-9a-fA-F]{6}$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^#[0-9a-fA-F]{6}$"
+                  }
+                ]
+              },
+              "fontId": {
+                "type": "string"
+              },
+              "hasLogo": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "colors",
+              "fontId",
+              "hasLogo"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "brand"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "set_brief",
+      "title": "Set the brief",
+      "kind": "configure",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "idempotent",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "Set the brief",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "workflow": {
+            "type": "string",
+            "enum": [
+              "product_launch",
+              "feature_announcement"
+            ]
+          },
+          "brief": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "audience": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "goal": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "cta": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60
+              }
+            },
+            "required": [
+              "product",
+              "audience",
+              "goal",
+              "cta"
+            ],
+            "additionalProperties": false
+          },
+          "totalDurationSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          }
+        },
+        "required": [
+          "projectId",
+          "workflow",
+          "brief"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "workflow": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "product_launch",
+                      "feature_announcement"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "totalDurationSeconds": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "workflow",
+              "totalDurationSeconds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_project",
+      "title": "Create a project",
+      "kind": "create",
+      "scope": "scenivia:edit",
+      "access": "account",
+      "cost": "none",
+      "idempotency": "none",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "Create a project",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "start_storyboard_job",
+      "title": "Generate a storyboard",
+      "kind": "generate",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "aiQuota",
+      "idempotency": "joinsActive",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Generate a storyboard",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "totalDurationSeconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "en",
+              "fr"
+            ]
+          }
+        },
+        "required": [
+          "projectId",
+          "prompt"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "joined": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "jobId",
+          "joined"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_storyboard_job",
+      "title": "Read the latest storyboard job",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Read the latest storyboard job",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "job": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "failureCode": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "hasStoryboard": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "id",
+                  "status",
+                  "failureCode",
+                  "hasStoryboard"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "job"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "find_layers",
+      "title": "Find layers",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "Find layers",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "shot": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "A shot as the timeline counts it, from 1."
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "component": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "shot": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "component": {
+                  "type": "string"
+                },
+                "name": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "The layer name in the Studio, shortened like text."
+                },
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Visible text, shortened. Never exact copy."
+                },
+                "seconds": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "shot",
+                "component",
+                "name",
+                "text",
+                "seconds"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "omitted": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "shots": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "textNotFound": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "layers",
+          "omitted",
+          "shots",
+          "textNotFound"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "inspect_layer",
+      "title": "Inspect a layer",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "Inspect a layer",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "layerId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "projectId",
+          "layerId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "layer": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "shot": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "component": {
+                "type": "string"
+              },
+              "locked": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "shot",
+              "component",
+              "locked"
+            ],
+            "additionalProperties": false
+          },
+          "controls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "variants": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "current": {
+                  "type": "object",
+                  "properties": {
+                    "value": {},
+                    "preview": {
+                      "type": "string"
+                    },
+                    "truncated": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "truncated"
+                  ],
+                  "additionalProperties": false
+                },
+                "place": {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {}
+                }
+              },
+              "required": [
+                "field",
+                "type",
+                "current"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "omittedControls": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "layer",
+          "controls",
+          "omittedControls"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_assets",
+      "title": "List assets",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "untrusted",
+      "mcpAnnotations": {
+        "title": "List assets",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "mimeType": {
+                  "type": "string"
+                },
+                "name": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "width": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "height": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "seconds": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "kind",
+                "mimeType",
+                "name",
+                "width",
+                "height",
+                "seconds"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "omitted": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "assets",
+          "omitted"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "add_asset_from_url",
+      "title": "Add a picture from a URL",
+      "kind": "create",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "idempotent",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Add a picture from a URL",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 2048,
+            "format": "uri",
+            "description": "A public HTTPS address of the image. Private and local addresses are refused."
+          }
+        },
+        "required": [
+          "projectId",
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "asset": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "mimeType": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "height": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "mimeType",
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "asset"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_transitions",
+      "title": "List transitions",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "catalogue",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "List transitions",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "transitions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "fade",
+                "slide-from-left",
+                "slide-from-right",
+                "wipe-from-left",
+                "wipe-from-right",
+                "clock-wipe",
+                "page-turn",
+                "push-through",
+                "whip-pan-left",
+                "whip-pan-right",
+                "focus-pull",
+                "zoom-blur",
+                "brand-shape-wipe",
+                "light-ribbon",
+                "whip-flash",
+                "color-panel-wipe-from-left",
+                "color-panel-wipe-from-right",
+                "iris-wipe",
+                "glow-wipe",
+                "whip-pan-up",
+                "whip-pan-down",
+                "color-panel-wipe-from-top",
+                "color-panel-wipe-from-bottom"
+              ]
+            }
+          },
+          "lengths": {
+            "type": "object",
+            "properties": {
+              "short": {
+                "type": "number"
+              },
+              "medium": {
+                "type": "number"
+              },
+              "long": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "short",
+              "medium",
+              "long"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "transitions",
+          "lengths"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_backgrounds",
+      "title": "List backgrounds",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "catalogue",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "List backgrounds",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "backgrounds": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "family": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "family"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "backgrounds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "find_components",
+      "title": "Find components",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "catalogue",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Find components",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "component": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "textFields": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "whenToUse": {
+                  "type": "string"
+                },
+                "moods": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "component",
+                "title",
+                "category",
+                "textFields",
+                "whenToUse",
+                "moods",
+                "roles"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "components"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "preview_component",
+      "title": "Look at a component",
+      "kind": "preview",
+      "scope": "scenivia:read",
+      "access": "catalogue",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Look at a component",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "component"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "string"
+          },
+          "mediaType": {
+            "type": "string",
+            "const": "image/png"
+          }
+        },
+        "required": [
+          "component",
+          "mediaType"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_templates",
+      "title": "List templates",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "catalogue",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "List templates",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "format": {
+            "description": "Only templates drawn for this frame.",
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1"
+            ]
+          },
+          "usage": {
+            "description": "Only templates made for this kind of video.",
+            "type": "string",
+            "enum": [
+              "launch",
+              "feature",
+              "customer-story",
+              "offer",
+              "tutorial",
+              "social",
+              "changelog",
+              "comparison"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "templates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "productKind": {
+                  "type": "string",
+                  "description": "The kind of product whose story the film tells."
+                },
+                "story": {
+                  "type": "string",
+                  "description": "What the film tells, start to end."
+                },
+                "seconds": {
+                  "type": "number"
+                },
+                "shots": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "formats": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "16:9",
+                      "9:16",
+                      "1:1"
+                    ]
+                  }
+                },
+                "usages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "launch",
+                      "feature",
+                      "customer-story",
+                      "offer",
+                      "tutorial",
+                      "social",
+                      "changelog",
+                      "comparison"
+                    ]
+                  }
+                },
+                "videoType": {
+                  "type": "string",
+                  "enum": [
+                    "full-ui",
+                    "media",
+                    "both"
+                  ],
+                  "description": "full-ui: interface screens; media: pictures and clips."
+                },
+                "preview": {
+                  "type": "object",
+                  "properties": {
+                    "poster": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "A still of the film, PNG."
+                    },
+                    "video": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "The whole film, MP4."
+                    }
+                  },
+                  "required": [
+                    "poster",
+                    "video"
+                  ],
+                  "additionalProperties": false,
+                  "description": "The Library's preview, drawn in the template's demonstration brand."
+                },
+                "places": {
+                  "type": "object",
+                  "properties": {
+                    "lines": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "pictures": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "logos": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "figures": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "lines",
+                    "pictures",
+                    "logos",
+                    "figures"
+                  ],
+                  "additionalProperties": false,
+                  "description": "What the person's product fills: lines of text, pictures, logos and figures."
+                }
+              },
+              "required": [
+                "name",
+                "productKind",
+                "story",
+                "seconds",
+                "shots",
+                "formats",
+                "usages",
+                "videoType",
+                "preview",
+                "places"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "templates"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "inspect_template",
+      "title": "Inspect a template",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "catalogue",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Inspect a template",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "template": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "A Library template, by the name list_templates returns."
+          }
+        },
+        "required": [
+          "template"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "template": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "productKind": {
+                "type": "string",
+                "description": "The kind of product whose story the film tells."
+              },
+              "story": {
+                "type": "string",
+                "description": "What the film tells, start to end."
+              },
+              "seconds": {
+                "type": "number"
+              },
+              "shots": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "shot": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "shows": {
+                      "type": "string"
+                    },
+                    "seconds": {
+                      "type": "number"
+                    },
+                    "lines": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "role": {
+                            "type": "string",
+                            "enum": [
+                              "headline",
+                              "hook",
+                              "body",
+                              "cta",
+                              "brandName",
+                              "address",
+                              "label",
+                              "feature",
+                              "data"
+                            ]
+                          },
+                          "maxChars": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "maxLines": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "interface": {
+                            "type": "boolean",
+                            "description": "A word of the film's mock interface rather than a line it tells."
+                          }
+                        },
+                        "required": [
+                          "role",
+                          "maxChars",
+                          "maxLines",
+                          "interface"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "omittedLines": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "pictures": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accepts": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "aspect": {
+                            "type": "number",
+                            "description": "Width over height."
+                          },
+                          "subject": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "accepts",
+                          "aspect",
+                          "subject"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "logo": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "shot",
+                    "shows",
+                    "seconds",
+                    "lines",
+                    "omittedLines",
+                    "pictures",
+                    "logo"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "formats": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "16:9",
+                    "9:16",
+                    "1:1"
+                  ]
+                }
+              },
+              "usages": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "launch",
+                    "feature",
+                    "customer-story",
+                    "offer",
+                    "tutorial",
+                    "social",
+                    "changelog",
+                    "comparison"
+                  ]
+                }
+              },
+              "videoType": {
+                "type": "string",
+                "enum": [
+                  "full-ui",
+                  "media",
+                  "both"
+                ],
+                "description": "full-ui: interface screens; media: pictures and clips."
+              },
+              "preview": {
+                "type": "object",
+                "properties": {
+                  "poster": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A still of the film, PNG."
+                  },
+                  "video": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The whole film, MP4."
+                  }
+                },
+                "required": [
+                  "poster",
+                  "video"
+                ],
+                "additionalProperties": false,
+                "description": "The Library's preview, drawn in the template's demonstration brand."
+              },
+              "places": {
+                "type": "object",
+                "properties": {
+                  "lines": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "pictures": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "logos": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "figures": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "lines",
+                  "pictures",
+                  "logos",
+                  "figures"
+                ],
+                "additionalProperties": false,
+                "description": "What the person's product fills: lines of text, pictures, logos and figures."
+              },
+              "fitsNot": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Products whose story this film would tell falsely."
+              },
+              "looks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "name",
+              "productKind",
+              "story",
+              "seconds",
+              "shots",
+              "formats",
+              "usages",
+              "videoType",
+              "preview",
+              "places",
+              "fitsNot",
+              "looks"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "template"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "propose_edits",
+      "title": "Propose property edits",
+      "kind": "propose",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "none",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Propose property edits",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "The Studio revision this request was prepared against, from get_project."
+          },
+          "intent": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "description": "One sentence saying what the change is for. Recorded on the turn."
+          },
+          "operations": {
+            "minItems": 1,
+            "maxItems": 128,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "field": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "setText"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 4000
+                    }
+                  },
+                  "required": [
+                    "layerId",
+                    "field",
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "field": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "setNumber"
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "layerId",
+                    "field",
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "field": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "setBoolean"
+                    },
+                    "value": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "layerId",
+                    "field",
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "field": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "setVariant"
+                    },
+                    "value": {
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  },
+                  "required": [
+                    "layerId",
+                    "field",
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "field": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "setColor"
+                    },
+                    "value": {
+                      "type": "string",
+                      "pattern": "^#(?:[a-f0-9]{3}|[a-f0-9]{6}|[a-f0-9]{8})$"
+                    }
+                  },
+                  "required": [
+                    "layerId",
+                    "field",
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "field": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "setAsset"
+                    },
+                    "value": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    }
+                  },
+                  "required": [
+                    "layerId",
+                    "field",
+                    "type",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "setGround"
+                    },
+                    "layerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "ground": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 120,
+                          "pattern": "^(?:(?:shaders|wallpapers)\\/[a-z0-9]+(?:-[a-z0-9]+)*|#[0-9a-fA-F]{6})$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "layerId",
+                    "ground"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "setSceneDuration"
+                    },
+                    "scene": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 200
+                    },
+                    "seconds": {
+                      "type": "number",
+                      "minimum": 0.2,
+                      "maximum": 600
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "scene",
+                    "seconds"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "setTransition"
+                    },
+                    "scene": {
+                      "type": "integer",
+                      "minimum": 2,
+                      "maximum": 200
+                    },
+                    "transition": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "fade",
+                            "slide-from-left",
+                            "slide-from-right",
+                            "wipe-from-left",
+                            "wipe-from-right",
+                            "clock-wipe",
+                            "page-turn",
+                            "push-through",
+                            "whip-pan-left",
+                            "whip-pan-right",
+                            "focus-pull",
+                            "zoom-blur",
+                            "brand-shape-wipe",
+                            "light-ribbon",
+                            "whip-flash",
+                            "color-panel-wipe-from-left",
+                            "color-panel-wipe-from-right",
+                            "iris-wipe",
+                            "glow-wipe",
+                            "whip-pan-up",
+                            "whip-pan-down",
+                            "color-panel-wipe-from-top",
+                            "color-panel-wipe-from-bottom"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "length": {
+                      "type": "string",
+                      "enum": [
+                        "short",
+                        "medium",
+                        "long"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "scene",
+                    "transition"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "baseRevision",
+          "intent",
+          "operations"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "turnId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "operations": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "fit": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
+            }
+          },
+          "exportLosses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
+            }
+          }
+        },
+        "required": [
+          "turnId",
+          "baseRevision",
+          "operations",
+          "fit",
+          "exportLosses"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "propose_structure",
+      "title": "Propose shot changes",
+      "kind": "propose",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "none",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Propose shot changes",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "The Studio revision this request was prepared against, from get_project."
+          },
+          "intent": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "description": "One sentence saying what the change is for. Recorded on the turn."
+          },
+          "operations": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "addShot"
+                    },
+                    "component": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120,
+                      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                    },
+                    "seconds": {
+                      "type": "number",
+                      "minimum": 0.2,
+                      "maximum": 600
+                    },
+                    "text": {
+                      "type": "string",
+                      "maxLength": 4000
+                    },
+                    "textField": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "component"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "removeShot"
+                    },
+                    "scene": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 200
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "scene"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "baseRevision",
+          "intent",
+          "operations"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "turnId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "structure": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "addShot"
+                    },
+                    "component": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120,
+                      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                    },
+                    "seconds": {
+                      "type": "number",
+                      "minimum": 0.2,
+                      "maximum": 600
+                    },
+                    "text": {
+                      "type": "string",
+                      "maxLength": 4000
+                    },
+                    "textField": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "component"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "removeShot"
+                    },
+                    "scene": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 200
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "scene"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "turnId",
+          "baseRevision",
+          "structure"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "apply_turn",
+      "title": "Apply a proposed turn",
+      "kind": "apply",
+      "scope": "scenivia:edit",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "once",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Apply a proposed turn",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "turnId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "A turn, as propose_edits or propose_structure returns it."
+          }
+        },
+        "required": [
+          "projectId",
+          "turnId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "turnId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "awaiting_studio"
+            ]
+          },
+          "appliedRevision": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "turnId",
+          "state",
+          "appliedRevision"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_turn",
+      "title": "Read a turn",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectWrite",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Read a turn",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "turnId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "A turn, as propose_edits or propose_structure returns it."
+          }
+        },
+        "required": [
+          "projectId",
+          "turnId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "turnId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "properties",
+              "structure",
+              "conversation"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "ready",
+              "failed"
+            ]
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "appliedRevision": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "structure": {
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "addShot"
+                    },
+                    "component": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120,
+                      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                    },
+                    "seconds": {
+                      "type": "number",
+                      "minimum": 0.2,
+                      "maximum": 600
+                    },
+                    "text": {
+                      "type": "string",
+                      "maxLength": 4000
+                    },
+                    "textField": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100,
+                      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "component"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "removeShot"
+                    },
+                    "scene": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 200
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "scene"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "turnId",
+          "kind",
+          "status",
+          "baseRevision",
+          "appliedRevision"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "check_export",
+      "title": "Check the export",
+      "kind": "preview",
+      "scope": "scenivia:read",
+      "access": "projectOwner",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Check the export",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "const": "ready"
+              },
+              "shots": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "totalDurationSeconds": {
+                "type": "number"
+              },
+              "playedSeconds": {
+                "type": "number"
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {}
+                }
+              }
+            },
+            "required": [
+              "status",
+              "shots",
+              "totalDurationSeconds",
+              "playedSeconds",
+              "notes"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "const": "blocked"
+              },
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "status",
+              "code",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "start_render",
+      "title": "Export the film",
+      "kind": "render",
+      "scope": "scenivia:render",
+      "access": "projectOwner",
+      "cost": "credits",
+      "idempotency": "joinsActive",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Export the film",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "The Studio revision this request was prepared against, from get_project."
+          },
+          "exportHeight": {
+            "description": "A lower height than the plan grants. Never raises it.",
+            "anyOf": [
+              {
+                "type": "number",
+                "const": 720
+              },
+              {
+                "type": "number",
+                "const": 1080
+              },
+              {
+                "type": "number",
+                "const": 2160
+              }
+            ]
+          }
+        },
+        "required": [
+          "projectId",
+          "baseRevision"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "render": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "projectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "queued",
+                  "running",
+                  "succeeded",
+                  "failed"
+                ]
+              },
+              "aspectRatio": {
+                "type": "string",
+                "enum": [
+                  "16:9",
+                  "9:16",
+                  "1:1",
+                  "4:5"
+                ]
+              },
+              "exportHeight": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "retryOf": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "creditCharged": {
+                "type": "boolean"
+              },
+              "failureReason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "projectId",
+              "status",
+              "aspectRatio",
+              "exportHeight",
+              "createdAt",
+              "retryOf",
+              "creditCharged",
+              "failureReason"
+            ],
+            "additionalProperties": false
+          },
+          "joined": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "render",
+          "joined"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_render",
+      "title": "Read an export",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Read an export",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "renderId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "A render job, as start_render or list_renders returns it."
+          }
+        },
+        "required": [
+          "projectId",
+          "renderId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "render": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "projectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "queued",
+                  "running",
+                  "succeeded",
+                  "failed"
+                ]
+              },
+              "aspectRatio": {
+                "type": "string",
+                "enum": [
+                  "16:9",
+                  "9:16",
+                  "1:1",
+                  "4:5"
+                ]
+              },
+              "exportHeight": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "retryOf": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "creditCharged": {
+                "type": "boolean"
+              },
+              "failureReason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "projectId",
+              "status",
+              "aspectRatio",
+              "exportHeight",
+              "createdAt",
+              "retryOf",
+              "creditCharged",
+              "failureReason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "render"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_renders",
+      "title": "List exports",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "List exports",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          }
+        },
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "renders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "projectId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "queued",
+                    "running",
+                    "succeeded",
+                    "failed"
+                  ]
+                },
+                "aspectRatio": {
+                  "type": "string",
+                  "enum": [
+                    "16:9",
+                    "9:16",
+                    "1:1",
+                    "4:5"
+                  ]
+                },
+                "exportHeight": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "retryOf": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "creditCharged": {
+                  "type": "boolean"
+                },
+                "failureReason": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "projectId",
+                "status",
+                "aspectRatio",
+                "exportHeight",
+                "createdAt",
+                "retryOf",
+                "creditCharged",
+                "failureReason"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "renders"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_render_download",
+      "title": "Get the exported file",
+      "kind": "read",
+      "scope": "scenivia:read",
+      "access": "projectRead",
+      "cost": "none",
+      "idempotency": "readOnly",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Get the exported file",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "renderId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "A render job, as start_render or list_renders returns it."
+          }
+        },
+        "required": [
+          "projectId",
+          "renderId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "expiresInSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "url",
+          "expiresInSeconds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "retry_render",
+      "title": "Retry a failed export",
+      "kind": "render",
+      "scope": "scenivia:render",
+      "access": "projectOwner",
+      "cost": "credits",
+      "idempotency": "joinsActive",
+      "contentTrust": "trusted",
+      "mcpAnnotations": {
+        "title": "Retry a failed export",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "The project, as list_projects returns it."
+          },
+          "renderId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "description": "A render job, as start_render or list_renders returns it."
+          }
+        },
+        "required": [
+          "projectId",
+          "renderId"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "render": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "projectId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "queued",
+                  "running",
+                  "succeeded",
+                  "failed"
+                ]
+              },
+              "aspectRatio": {
+                "type": "string",
+                "enum": [
+                  "16:9",
+                  "9:16",
+                  "1:1",
+                  "4:5"
+                ]
+              },
+              "exportHeight": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "retryOf": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "creditCharged": {
+                "type": "boolean"
+              },
+              "failureReason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "projectId",
+              "status",
+              "aspectRatio",
+              "exportHeight",
+              "createdAt",
+              "retryOf",
+              "creditCharged",
+              "failureReason"
+            ],
+            "additionalProperties": false
+          },
+          "joined": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "render",
+          "joined"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

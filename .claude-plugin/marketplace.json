@@ -1,0 +1,16 @@
+{
+  "name": "scenivia",
+  "description": "Scenivia's own Claude Code plugins.",
+  "owner": {
+    "name": "Scenivia",
+    "email": "support@scenivia.com",
+    "url": "https://scenivia.com"
+  },
+  "plugins": [
+    {
+      "name": "scenivia",
+      "source": "./plugins/scenivia",
+      "description": "Make and edit motion-design product films in Scenivia from Claude Code."
+    }
+  ]
+}

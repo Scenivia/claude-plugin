@@ -1,0 +1,20 @@
+{
+  "name": "scenivia",
+  "displayName": "Scenivia",
+  "version": "1.0.0",
+  "description": "Make and edit motion-design product films in Scenivia: read a project, brief it, look at the Library templates, propose and apply typed edits, check and export the film.",
+  "author": {
+    "name": "Scenivia",
+    "email": "support@scenivia.com",
+    "url": "https://scenivia.com"
+  },
+  "homepage": "https://scenivia.com",
+  "repository": "https://github.com/Scenivia/claude-plugin",
+  "keywords": [
+    "video",
+    "motion-design",
+    "mcp",
+    "scenivia"
+  ],
+  "license": "SEE LICENSE IN LICENSE"
+}
