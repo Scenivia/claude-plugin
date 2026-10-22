@@ -10,7 +10,7 @@ A refused call returns `isError: true` with a JSON body: `code`, `message`,
 | `unauthenticated` | no | Reconnect: the token is missing, expired or revoked. |
 | `insufficient_scope` | no | Ask the person to grant the scope named in the message, then retry. |
 | `not_found` | no | Check the id with a list or read capability; it may belong to another account. |
-| `forbidden` | no | This account may not do that on this project; do not retry. |
+| `forbidden` | no | This account may not do that: on this project, or on its plan (agents need Pro or Max, the message gives the upgrade link); tell the person, do not retry. |
 | `invalid_input` | no | Fix the arguments against the input schema; the message names the field. |
 | `rejected_operation` | no | Read operationIndex and reason, inspect the layer again, and send a corrected batch; a composed screen lists issues, each with its block and a hint. |
 | `stale_revision` | no | Read the project again with get_project and prepare the change on the new revision. |

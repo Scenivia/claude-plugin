@@ -14,7 +14,9 @@ no secret.
 
 The first call opens the Scenivia consent page in your browser. The plugin asks
 for `scenivia:read` and `scenivia:edit`; exporting needs `scenivia:render`,
-granted separately. Exports spend credits only when they succeed.
+granted separately. Exports spend credits only when they succeed. Driving
+Scenivia from an agent is part of the Pro and Max plans; on another plan the
+consent page and every call say so, with the link to upgrade.
 
 Never put a token in `.mcp.json` or in a header: the OAuth flow keeps it in
 Claude Code's own credential store.
