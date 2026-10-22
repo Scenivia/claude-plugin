@@ -18,5 +18,8 @@
   ],
   "license": "SEE LICENSE IN LICENSE",
   "icon": ".claude-plugin/icon.png",
-  "privacyPolicyUrl": "https://scenivia.com/legal/privacy-policy"
+  "privacyPolicyUrl": "https://scenivia.com/legal/privacy-policy",
+  "supportUrl": "https://scenivia.com/contact",
+  "documentationUrl": "https://github.com/Scenivia/claude-plugin#readme",
+  "termsOfServiceUrl": "https://scenivia.com/legal/terms-of-use"
 }
