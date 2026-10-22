@@ -76,6 +76,21 @@ template, which words, which pictures, which colours, which music.
 - A refusal lists every issue with its block and a hint: fix all of them and
   call again. It lands as the last shot of the film; scene describes an
   existing composed screen again instead.
+- When rebuild_screen_from_capture is offered, the capture of the person's
+  own site becomes a screen in live text: the page's layout, words, colours
+  and type, every element arriving in reading order. Prefer it to a grid
+  screen. Pass its screen, images and seconds to compose_screen as they are;
+  drop an element or move focus if you must, but never write a word the page
+  does not say: it is refused.
+- Its screen comes with a direction: the camera closes on the heading, a
+  cursor presses the main action, the proof is counted up, then the camera
+  lets go. Keep it unless the person asks otherwise; to change it, reorder,
+  retarget or cut beats by element id, and keep the shot long enough for
+  every beat to settle before the cut.
+- A beat never brings words of its own: a notification is one of the page's
+  lines, a menu lists elements of the page, and select shows only the second
+  state the capture itself clicked into. When the capture read none, leave
+  select out; a scroll is refused when the capture holds nothing below.
 
 ## 6. Finish
 - Read the film back (get_project, find_layers) and fix any line that came
