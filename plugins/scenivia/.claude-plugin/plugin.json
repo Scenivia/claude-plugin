@@ -16,5 +16,7 @@
     "mcp",
     "scenivia"
   ],
-  "license": "SEE LICENSE IN LICENSE"
+  "license": "SEE LICENSE IN LICENSE",
+  "icon": ".claude-plugin/icon.png",
+  "privacyPolicyUrl": "https://scenivia.com/legal/privacy-policy"
 }
