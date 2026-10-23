@@ -2,8 +2,8 @@
 
 # Scenivia tools, catalogue 1.4.0
 
-Every tool of the Scenivia MCP server, in the order a film is made. The full
-JSON Schemas are in `catalog.json` beside this file.
+Every tool of the Scenivia MCP server, in the order a film is made. The server
+itself gives the full JSON Schema of each tool when a client lists them.
 
 | Tool | Kind | Scope | Cost | Second call |
 |---|---|---|---|---|

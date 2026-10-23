@@ -67,4 +67,3 @@ they can open. Every call is a typed tool; there is no raw document write.
 - What a refusal means and what to do: [references/errors.md](references/errors.md).
 - Worked sequences: [references/workflows.md](references/workflows.md).
 - Bounds and what the server does not do: [references/limits.md](references/limits.md).
-- Full JSON Schemas of every tool: [references/catalog.json](references/catalog.json).
